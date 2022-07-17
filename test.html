@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        
+        <title>Speach To Text</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <style>
+            body {background-color:lightgrey;}
+            h1{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #output{
+                display: block;
+                width: 80%;
+                height: 300px;
+                margin: 30px auto;
+                font-weight: 300 1rem Archivo;
+                font-size: 20pt;
+                border: none;
+
+                padding: 10px 10px;
+            }
+          
+            .container-button{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+           
+
+            .btn-start{
+                background-color:lavender;
+            }
+
+            .btn-start  {
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width:  6rem;
+                height: 2rem;
+
+                border-radius: 0;
+                margin-right: 0;
+                padding: 10px;
+
+                border: 0.9;
+                font-weight: 200 1rem Archivo;
+                font-size: 16pt;
+
+            }
+            #action
+            {
+                color: rgb(15, 15, 15);             
+                font-size: 18pt;
+
+            }
+           
+        </style>
+    </head>
+
+    <body>
+        
+        <h1>Speach To Text</h1>
+       
+        <div class="container-button">
+          
+            <button type="button" class="btn-start"  onclick="stt();">إبدأ</button> 
+           
+            
+
+        </div>
+        
+        <div class="container-button">  <p> &nbsp; <span id="action"></span></p> </div>
+        
+         
+      
+
+      
+        <textarea  id="output" dir="rtl"></textarea>
+
+        <script>
+            /* JS code */
+            function stt(){
+            
+            var output = document.getElementById("output");
+           
+            
+            var action = document.getElementById("action");
+
+             
+          
+
+             
+            var SpeechRecognition = SpeechRecognition || window.webkitSpeechRecognition;
+             
+            var recognition = new SpeechRecognition();
+            recognition.lang = 'ar-SA';
+            // This runs when the speech recognition service starts
+            recognition.onstart = function () {
+                action.innerHTML = "...يتم سماعك , إبدأ بالتحدث الأن";
+            };
+            recognition.onspeechend = function() {
+            action.innerHTML = "تم إيقاف الاستماع";
+            recognition.stop();}
+            // This runs when the speech recognition no match
+            recognition.onnomatch = function (event) {
+
+                action.innerHTML = "لم نتمكن من فهم كلامك .. يرجى المحاولة مرة اخرى";
+            };
+             // This runs when the speech recognition get error as connection faild
+            recognition.onerror = function (event) {
+                action.innerHTML = "<small>حدث خطا يرجى التاكد من اتصال الانترنت:" + event.error + ".</small>";
+
+            };
+            // This runs when the speech recognition service returns result
+            recognition.onresult = function (event) {
+                var transcript = event.results[0][0].transcript;
+                output.innerHTML = transcript;
+            };
+
+            // start recognition
+           
+                recognition.start();
+           
+        }
+        
+             
+              
+            
+        </script>
+    </body>
+
+</html>
